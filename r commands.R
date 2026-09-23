@@ -20,7 +20,7 @@ EX = sum(x * probs)
 EY = sum(y * probs)
 EXY = sum(x * y * probs)
 EXY - EX * EY
-# or given x, y and equation:
+# or if given x and y vectors
 x <- c(6, 3, 6)
 y <- c(0, 4, 1)
 xbar <- mean(x)
@@ -90,12 +90,12 @@ covxy = 1
 varx = 1
 covxy / varx
 # or given vectors:
-x = c(1,1,1)
-y = c(1,1,1)
+x = c(2,3,5)
+y = c(2,9,11)
 cov(x, y) / var(x)
-# or given a talen of x, y, and probs:
-x = c(6,0,2)
-y = c(8,7,0)
+# or given a table of x, y, and probs:
+x = c(5,6,5)
+y = c(5,6,2)
 probs = c(.2,.3,.5)
 EX = sum(x * probs)
 EY = sum(y * probs)
@@ -105,7 +105,7 @@ covxy = EXY - EX * EY
 varx = EX2 - EX^2
 covxy / varx
 
-## OLS slope (bhat_0):
+## OLS intercept (bhat_0):
 xbar = 1
 ybar = 1
 bhat_1 = 1
