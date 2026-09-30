@@ -90,12 +90,12 @@ covxy = 1
 varx = 1
 covxy / varx
 # or given vectors:
-x = c(2,3,5)
-y = c(2,9,11)
+x = c(6,5,8)
+y = c(1,8,4)
 cov(x, y) / var(x)
 # or given a table of x, y, and probs:
-x = c(5,6,5)
-y = c(5,6,2)
+x = c(6,5,8)
+y = c(1,8,4)
 probs = c(.2,.3,.5)
 EX = sum(x * probs)
 EY = sum(y * probs)
@@ -109,10 +109,10 @@ covxy / varx
 xbar = 1
 ybar = 1
 bhat_1 = 1
-ymean - bhat_1 * xmean
+ybar - bhat_1 * xbar
 # or if given vectors for x and y:
-x = c(4,6,6)
-y = c(5,8,2)
+x = c(2,7,2)
+y = c(2,0,2)
 xbar = mean(x)
 ybar = mean(y)
 bhat_1 = cov(x, y) / var(x)
@@ -124,12 +124,44 @@ b1 = 1
 x = 1
 b0 + b1 * x
 # or finding OLS line and predicted yhat at given x value:
-x = c(5,6,3)
-y = c(10,3,3)
+x = c(1,6,4)
+y = c(4,10,3)
 xbar = mean(x)
 ybar = mean(y)
-num = sum((x - xbar) * (y - ybar))
-den = sum((x - xbar)^2)
-b1 = num / den
-b0 = ybar - b1 * xbar
-b0 + b1 * 8 # in coefficient put thex value your predicted at
+b1 = cov(x, y) / var(x)
+b0 = mean(y) - mean(x) * b1
+b0 + b1 * 6 # in coefficient put thex value your predicted at
+
+## for sample x and y vectors, find OLS slope:
+x = c(2,3,6)
+y = c(8,3,4)
+sum((x - mean(x)) * (y - mean(y))) / sum((x - mean(x))^2)
+
+## finding SSR from yhat and given vectors:
+x = c(3,5,7)
+y = c(2,1,4)
+yhat = 1 + 7/10 * x  # make sure to change fraction
+sum((y - yhat)^2)
+
+## SSE = SST - SSR (finding SSE from SST and SSR):
+SST = 374
+SSR = 88
+SST - SSR
+
+## R^2 = 1 - SSR / SST (finding R^2 from SSR and SST):
+SSR = 264
+SST = 2
+1 - SSR / SST
+# what fraction of variation in y is unexplained:
+SSR = 96
+SST = 264
+SSR / SST
+# SSR = (1 - R^2) * SST (finding SSR from R^2 and SST):
+SST = 315
+R2 = 34/100
+(1 - R2) * SST
+
+## R^2 = SSE / SST (finding r^2 from SSE and SST):
+SSE = 72
+SST = 339
+SSE / SST
