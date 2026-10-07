@@ -1,6 +1,15 @@
 ### Useful R Commands for quizzes/tests
+library(wooldridge)
+data("wage1")
+data("bwght")
 
-## variance:
+### General Notes:
+ ## Prediction vs.Predicted Change:
+   # Prediction: yhat = bhat_0 + bhat_1 * x
+   # Predicted Change: delta_yhat = bhat_1 * delta_x
+
+
+## variance (Sx^2):
 x = c(1,1,1)
 var(x)
 # or (given EX and EX^2):
@@ -8,7 +17,11 @@ EX2 = 1
 EX = 1
 EX2 - EX^2
 
-## covariance:
+## standard deviation (Sx):
+x = c(0,6,2)
+sd(x)
+
+## covariance (Sxy):
 x = c(1,1,1)
 y = c(1,1,1)
 cov(x, y)
@@ -103,7 +116,10 @@ EXY = sum(x * y * probs)
 EX2 = sum(x^2 * probs)
 covxy = EXY - EX * EY
 varx = EX2 - EX^2
-covxy / varx
+covxy / varx # = Sxy / Sx^2
+# or given wooldridge data
+reg = lm(wage ~ educ, wage1)
+b1 = reg$coefficents[2]
 
 ## OLS intercept (bhat_0):
 xbar = 1
@@ -117,11 +133,14 @@ xbar = mean(x)
 ybar = mean(y)
 bhat_1 = cov(x, y) / var(x)
 ybar - bhat_1 * xbar
+# or given wooldridge data:
+reg2 = lm(wage ~ educ, data = wage1)
+b0 = reg2$coefficients[1]
 
 ## fitted regression line (finding yhat):
-b0 = 1
-b1 = 1
-x = 1
+b0 = -.91
+b1 = .54
+x = 4
 b0 + b1 * x
 # or finding OLS line and predicted yhat at given x value:
 x = c(1,6,4)
@@ -138,10 +157,14 @@ y = c(8,3,4)
 sum((x - mean(x)) * (y - mean(y))) / sum((x - mean(x))^2)
 
 ## finding SSR from yhat and given vectors:
-x = c(3,5,7)
-y = c(2,1,4)
-yhat = 1 + 7/10 * x  # make sure to change fraction
+x = c(4,9,7)
+y = c(14,2,13)
+yhat = -1 + 8/10 * x  # make sure to change fraction
 sum((y - yhat)^2)
+
+# SST = Total Sum of Squares (sum(yi - ybar)^2)
+# SSR = Sum of Squared Residuals (sum(yhat - bhat_0 - bhat_1 * xi)^2)
+# SSE = Sum of Squares Error
 
 ## SSE = SST - SSR (finding SSE from SST and SSR):
 SST = 374
@@ -165,3 +188,46 @@ R2 = 34/100
 SSE = 72
 SST = 339
 SSE / SST
+# finging SSE from wooldridge:
+sum(reg$residuals^2)
+
+## sample size (how many ____ are in sample):
+nrow(wage1)
+
+## sample mean:
+mean(wage1$wage)
+
+## sample standard deviation:
+sd(wage1$educ)
+
+## R^2 from wooldridge data:
+sum((wage1$wage - mean(wage1$wage))^2)
+summary(reg)$r.squared
+
+
+# PS 7 scripts:
+#1:
+nrow(wage1)
+#2:
+mean(wage1$wage)
+#3:
+sd(wage1$educ)
+#4:
+reg = lm(wage ~ educ, data = wage1)
+b1 = reg$coefficients[2]
+b1
+#5:
+b0 = reg$coefficients[1]
+b0
+#6:
+b0 + b1 * 14
+#7:
+b1 * 2
+#8:
+SSR = sum(reg$residuals^2)
+SSR
+#9:
+summary(reg)$r.squared
+#10
+reg2 = lm(bwght ~ cigs, data = bwght)
+reg2$coefficients[2] * 5
