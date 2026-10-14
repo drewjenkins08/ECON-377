@@ -7,6 +7,8 @@ data("bwght")
  ## Prediction vs.Predicted Change:
    # Prediction: yhat = bhat_0 + bhat_1 * x
    # Predicted Change: delta_yhat = bhat_1 * delta_x
+ ## OLS residuals always = 0
+ ##
 
 
 ## variance (Sx^2):
@@ -57,20 +59,20 @@ sdx = 4
 sdy = 5
 covxy / (sdx * sdy)
 # or given a x, y, and probs
-x <- c(2, 3, 4, 8)
-y <- c(1, 10, 12, 3)
-p <- c(0.2, 0.3, 0.4, 0.1)
-EX  <- sum(x * p)
-EY  <- sum(y * p)
-EXY <- sum(x * y * p)
-covXY <- EXY - EX * EY
-EX2 <- sum(x^2 * p)
-EY2 <- sum(y^2 * p)
-varX <- EX2 - EX^2
-varY <- EY2 - EY^2
-sdX <- sqrt(varX)
-sdY <- sqrt(varY)
-corXY <- covXY / (sdX * sdY)
+x = c(2, 3, 4, 8)
+y = c(1, 10, 12, 3)
+p = c(0.2, 0.3, 0.4, 0.1)
+EX = sum(x * p)
+EY = sum(y * p)
+EXY = sum(x * y * p)
+covXY = EXY - EX * EY
+EX2 = sum(x^2 * p)
+EY2 = sum(y^2 * p)
+varX = EX2 - EX^2
+varY = EY2 - EY^2
+sdX = sqrt(varX)
+sdY = sqrt(varY)
+corXY = covXY / (sdX * sdY)
 corXY
 
 ## percent change:
@@ -118,6 +120,13 @@ EYX = 6
 a = 3
 b = 7
 a * EYX + b
+
+## OLS, regressing y on x:
+x = c(1,5,8,9,13,15)
+y = c(4,6,6,13,4,13)
+reg = lm(y ~ x)
+uhat = resid(reg)
+sum(x * uhat)
 
 ## OLS slope (bhat_1):
 covxy = 1
@@ -205,11 +214,10 @@ SST = 121
 R2 = .25
 (1 - R2) * SST
 # SSR from SSE and R^2:
-SSE <- 121
-R2  <- 0.25
-SST <- SSE / R2
-SSR <- SST - SSE
-SSR
+SSE = 121
+R2  = 0.25
+SST = SSE / R2
+SST - SSE
 
 ## R^2 = SSE / SST (finding r^2 from SSE and SST):
 SSE = 72
@@ -232,7 +240,7 @@ sum((wage1$wage - mean(wage1$wage))^2)
 summary(reg)$r.squared
 
 ## level-log finding change in y from change in x:
-beta1 <- 47.3
+beta1 = 47.3
 deltax = 18
 (beta1 / 100) * deltax
 
