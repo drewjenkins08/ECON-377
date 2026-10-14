@@ -13,9 +13,14 @@ data("bwght")
 x = c(1,1,1)
 var(x)
 # or (given EX and EX^2):
-EX2 = 1
-EX = 1
+EX2 = 4
+EX = 20
 EX2 - EX^2
+# or given n and sample variance:
+n <- 33
+var <- 13 # Sy2
+SST <- var * (n - 1)
+SST
 
 ## standard deviation (Sx):
 x = c(0,6,2)
@@ -51,6 +56,22 @@ covxy = 1
 sdx = 4
 sdy = 5
 covxy / (sdx * sdy)
+# or given a x, y, and probs
+x <- c(2, 3, 4, 8)
+y <- c(1, 10, 12, 3)
+p <- c(0.2, 0.3, 0.4, 0.1)
+EX  <- sum(x * p)
+EY  <- sum(y * p)
+EXY <- sum(x * y * p)
+covXY <- EXY - EX * EY
+EX2 <- sum(x^2 * p)
+EY2 <- sum(y^2 * p)
+varX <- EX2 - EX^2
+varY <- EY2 - EY^2
+sdX <- sqrt(varX)
+sdY <- sqrt(varY)
+corXY <- covXY / (sdX * sdY)
+corXY
 
 ## percent change:
 xnew = 1
@@ -80,11 +101,11 @@ EY = 3
 (a * EX) + (b * EY)
 
 ## Var(aX + bY):
-varx = 1
-vary = 1
-covxy = 0
-a = 1
-b = 1
+varx = 5
+vary = 11
+covxy = -3.6
+a = 3
+b = -2
 a^2 * varx + b^2 * vary + 2 * a * b * covxy
 
 ## E[Y | X = x]:
@@ -180,9 +201,15 @@ SSR = 96
 SST = 264
 SSR / SST
 # SSR = (1 - R^2) * SST (finding SSR from R^2 and SST):
-SST = 315
-R2 = 34/100
+SST = 121
+R2 = .25
 (1 - R2) * SST
+# SSR from SSE and R^2:
+SSE <- 121
+R2  <- 0.25
+SST <- SSE / R2
+SSR <- SST - SSE
+SSR
 
 ## R^2 = SSE / SST (finding r^2 from SSE and SST):
 SSE = 72
@@ -204,30 +231,12 @@ sd(wage1$educ)
 sum((wage1$wage - mean(wage1$wage))^2)
 summary(reg)$r.squared
 
+## level-log finding change in y from change in x:
+beta1 <- 47.3
+deltax = 18
+(beta1 / 100) * deltax
 
-# PS 7 scripts:
-#1:
-nrow(wage1)
-#2:
-mean(wage1$wage)
-#3:
-sd(wage1$educ)
-#4:
-reg = lm(wage ~ educ, data = wage1)
-b1 = reg$coefficients[2]
-b1
-#5:
-b0 = reg$coefficients[1]
-b0
-#6:
-b0 + b1 * 14
-#7:
-b1 * 2
-#8:
-SSR = sum(reg$residuals^2)
-SSR
-#9:
-summary(reg)$r.squared
-#10
-reg2 = lm(bwght ~ cigs, data = bwght)
-reg2$coefficients[2] * 5
+## log-log finding change in y from a change in x:
+beta1 = 1.22
+deltax = 18
+beta1 * deltax
