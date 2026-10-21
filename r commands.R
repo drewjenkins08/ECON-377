@@ -2,6 +2,7 @@
 library(wooldridge)
 data("wage1")
 data("bwght")
+data('ceosal1')
 
 ### General Notes:
  ## Prediction vs.Predicted Change:
@@ -248,3 +249,51 @@ deltax = 18
 beta1 = 1.22
 deltax = 18
 beta1 * deltax
+
+
+## Quiz 8:
+# PS9:
+# 5: log-log finding deltay given delta x and B1
+b1 = .23
+deltax = -2
+b1 * deltax
+
+# 6: finding percent of salary change when roe rises by deltaroe amount
+reg = lm(log(salary) ~ roe, data = ceosal1)
+reg$coefficients[2] * 5 * 100
+
+# 14: finding sd(B1) given sigma, and vector
+x = c(1,2,3,7,8)
+sigma = 2
+sstx = sum((x - mean(x))^2)
+sdb1 = sigma / sqrt(sstx)
+sdb1
+
+# 15: estimating error variance (sigma_hat^2) from n and SSR
+ssr = 513
+n = 27
+sigma_hat2 = ssr / (n - 2)
+sigma_hat2
+
+# 16: finding standard error seB1 given n, SSR, SSTx
+n = 11
+ssr = 487
+sstx = 8
+sigma_hat = sqrt(ssr / (n - 2))
+sigma_hat / sqrt(sstx)
+
+# PS8:
+# 14: finding new slope given B1 and x divded by a value
+b1 = .58
+x = 1000
+b1 * x
+
+# 17: finding yhat form OLS form (percent output)
+b1 = .07
+deltax = 3
+b1 * deltax
+
+# 19: finding delta y from OLS form
+b1 = 47.3
+deltax = 18
+(b1 / 100) * deltax
