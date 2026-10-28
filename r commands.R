@@ -251,49 +251,68 @@ deltax = 18
 beta1 * deltax
 
 
-## Quiz 8:
-# PS9:
-# 5: log-log finding deltay given delta x and B1
-b1 = .23
-deltax = -2
+## Quiz 9:
+# PS10:
+# 2: finding what percent y falls given OLS
+beta1 = .07
+dx = -1
+100 * beta1 * dx
+
+# 3: wooldridge, how bwght changes when family incomes rises by 20%
+reg = lm(log(bwght) ~ log(faminc), data = bwght)
+b1 = reg$coefficients[2]
+deltax = 20
 b1 * deltax
 
-# 6: finding percent of salary change when roe rises by deltaroe amount
-reg = lm(log(salary) ~ roe, data = ceosal1)
-reg$coefficients[2] * 5 * 100
+# 7: finding seb1 given n, sdx, sigmahat
+n = 22
+sdx = .5
+sigmahat = 7.6
+SSTx = (n - 1) * sdx^2
+seb1 = sigmahat / sqrt(SSTx)
+seb1
 
-# 14: finding sd(B1) given sigma, and vector
-x = c(1,2,3,7,8)
-sigma = 2
-sstx = sum((x - mean(x))^2)
-sdb1 = sigma / sqrt(sstx)
-sdb1
+# 9: finding new deb1 given a change in sample
+sdb1 = .75
+changex = 9
+sdb1 / sqrt(changex)
 
-# 15: estimating error variance (sigma_hat^2) from n and SSR
-ssr = 513
-n = 27
-sigma_hat2 = ssr / (n - 2)
-sigma_hat2
+# 12: finding yhat given MLR OLS and x values
+b0 = 4
+b1 = 2.4
+b2 = .8
+x1 = 8
+x2 = 7
+b0 + b1 * x1 + b2 * x2
 
-# 16: finding standard error seB1 given n, SSR, SSTx
-n = 11
-ssr = 487
-sstx = 8
-sigma_hat = sqrt(ssr / (n - 2))
-sigma_hat / sqrt(sstx)
+# 13: finding yhat given MLS OLS and deltax (ignores b0)
+b1 = 3.8
+b2 = -.7
+deltax1 = 6
+deltax2 = 4
+b1 * deltax1 + b2 * deltax2
 
-# PS8:
-# 14: finding new slope given B1 and x divded by a value
-b1 = .58
-x = 1000
-b1 * x
+# 14: wooldridge, finding predicted wage given values of educ, exper, tenure
+reg2 = lm(wage ~ educ + exper + tenure, data = wage1)
+b1 = reg2$coefficients[1]
+b2 = reg2$coefficients[2]
+b3 = reg2$coefficients[3]
+b4 = reg2$coefficients[4]
+educvalue = 14
+expervalue = 10
+tenurevalue = 5
+b1 + b2 * educvalue + b3 * expervalue + b4 * tenurevalue
 
-# 17: finding yhat form OLS form (percent output)
-b1 = .07
-deltax = 3
-b1 * deltax
+# 15: wooldridge, finding predicted wage if tenure rises by 3 yrs, educ and exper fixed
+reg2 = lm(wage ~ educ + exper + tenure, data = wage1)
+b4 = reg2$coefficients[4]
+deltatenure = 3
+b4 * deltatenure
 
-# 19: finding delta y from OLS form
-b1 = 47.3
-deltax = 18
-(b1 / 100) * deltax
+### non-R questions:
+## 1: A regression gives yhat = 12 + 8log(income), what does the 8 mean?
+# 1% rise in income is about 0.08 points in the predicted test score
+## 4: Suppose you could draw 1,000 samples from population and compute b1hat in each one, if OLS unbiased which true?
+# the average of the 1000 estimates is close to b1
+## 6: Var(b1hat) = sigma^2 / SSTx, what would make Var(b1hat) larger?
+# anything that results in a smaller SSTx or a larger error variance (sigma^2)
