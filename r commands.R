@@ -252,68 +252,61 @@ deltax = 18
 beta1 * deltax
 
 
-## Quiz 9:
-# PS10:
-# 2: finding what percent y falls given OLS
-beta1 = .07
-dx = -1
-100 * beta1 * dx
+## Quiz 10:
+# PS11:
+# 1: finding percent y changes given a change in x1 and x2
+b1 = .026
+b2 = -.013
+x1 = 4
+x2 = 4
+100 * (b1 * x1 + b2 * x2)
 
-# 3: wooldridge, how bwght changes when family incomes rises by 20%
-reg = lm(log(bwght) ~ log(faminc), data = bwght)
-b1 = reg$coefficients[2]
-deltax = 20
-b1 * deltax
+# 2: wooldridge, what percent wage changes when exp and tenure change
+reg = lm(log(wage) ~ educ + exper + tenure, data = wage1)
+b3 = reg$coefficients[3] # exper
+b4 = reg$coefficients[4] # tenure
+100 * (bexper * 2 + btenure * 1)
 
-# 7: finding seb1 given n, sdx, sigmahat
-n = 22
-sdx = .5
-sigmahat = 7.6
-SSTx = (n - 1) * sdx^2
-seb1 = sigmahat / sqrt(SSTx)
-seb1
+# 3: whats predicted hourly wage of someone with given quantities of educ, exper, tenure
+b1 = reg$coefficients[1] # wage
+b2 = reg$coefficients[2] # educ
+exp(b1 + (b2 * 12) + (b3 * 10) + (b4 * 3))
+coef(reg)
 
-# 9: finding new deb1 given a change in sample
-sdb1 = .75
-changex = 9
-sdb1 / sqrt(changex)
-
-# 12: finding yhat given MLR OLS and x values
-b0 = 4
-b1 = 2.4
-b2 = .8
-x1 = 8
-x2 = 7
+# 6: finding sample mean y given x1bar, x2bar and MLR
+b0 = 3.9
+b1 = 1.9
+b2 = -.5
+x1 = 7.9
+x2 = 3.7
 b0 + b1 * x1 + b2 * x2
 
-# 13: finding yhat given MLS OLS and deltax (ignores b0)
-b1 = 3.8
-b2 = -.7
-deltax1 = 6
-deltax2 = 4
-b1 * deltax1 + b2 * deltax2
+# 11: finding MLR slope given b1, b2, delta
+b1tidle = .73
+b2hat = 1.23
+delta1tidle = -.33
+b1hat = b1tidle - b2hat * delta1tidle
+b1hat
 
-# 14: wooldridge, finding predicted wage given values of educ, exper, tenure
-reg2 = lm(wage ~ educ + exper + tenure, data = wage1)
-b1 = reg2$coefficients[1]
-b2 = reg2$coefficients[2]
-b3 = reg2$coefficients[3]
-b4 = reg2$coefficients[4]
-educvalue = 14
-expervalue = 10
-tenurevalue = 5
-b1 + b2 * educvalue + b3 * expervalue + b4 * tenurevalue
+# 14: finding b2hat * delta1tidle
+reg6 = lm(faminc ~ cigs, data = bwght)
+delta1 = reg6$coefficients[2]
+bfamincMLR = reg5$coefficients[3]
+bfamincMLR * delta1
 
-# 15: wooldridge, finding predicted wage if tenure rises by 3 yrs, educ and exper fixed
-reg2 = lm(wage ~ educ + exper + tenure, data = wage1)
-b4 = reg2$coefficients[4]
-deltatenure = 3
-b4 * deltatenure
 
 ### non-R questions:
-## 1: A regression gives yhat = 12 + 8log(income), what does the 8 mean?
-# 1% rise in income is about 0.08 points in the predicted test score
-## 4: Suppose you could draw 1,000 samples from population and compute b1hat in each one, if OLS unbiased which true?
-# the average of the 1000 estimates is close to b1
-## 6: Var(b1hat) = sigma^2 / SSTx, what would make Var(b1hat) larger?
-# anything that results in a smaller SSTx or a larger error variance (sigma^2)
+## 4: after OLD MLR, the residuals Uihat = yi - yihat, which statemets are true?
+# sample average of residuals = 0
+#  sample covariance between Xj and residuals = 0
+# regression passes through the point of sample means
+## 7: which regressions vilate MRL3 (no perfect collinearity) so that OLS cant estimate?
+# wage on income in dollars and income in thousands of dollars
+# regression with 5 independent variables, estimated on 4 observations
+# voteA on expendA, expend B and totexpend, where totexpend = expendA + expendB
+## 9: which situations makes MLR4, E[U | X1, ..., Xk] = 0 fail (so that the X variables are endogenous)
+# a variable that affects Y and is correlated with X1 is left out of the regression
+## 16: omitted variable X2 lowers Y (B2 < 0), X2 is negatively correalted with included X1, the slope on X1 is:
+# biased upward, B2 < 0 (-) and negative correlation between X2 and X1 (-) so - * - = +
+## 17: regresses crop yield on fertilizer, leaving out land quality. better land raises yield, and farmers use more fertilizer on better land. fertilizer slope most likely:
+# overstates effect of fertilizer (upward bias), better land and yeild have positive relationship (+) and farmers use more fertilizer on better land (+) so + * + = +
