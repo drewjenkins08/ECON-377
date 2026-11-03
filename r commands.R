@@ -3,6 +3,7 @@ library(wooldridge)
 data("wage1")
 data("bwght")
 data('ceosal1')
+data('gpa1')
 
 ### General Notes:
  ## Prediction vs.Predicted Change:
