@@ -5,14 +5,6 @@ data("bwght")
 data('ceosal1')
 data('gpa1')
 
-### General Notes:
- ## Prediction vs.Predicted Change:
-   # Prediction: yhat = bhat_0 + bhat_1 * x
-   # Predicted Change: delta_yhat = bhat_1 * delta_x
- ## OLS residuals always = 0
- ##
-
-
 ## variance (Sx^2):
 x = c(1,1,1)
 var(x)
@@ -29,6 +21,11 @@ SST
 ## standard deviation (Sx):
 x = c(0,6,2)
 sd(x)
+# or if given a sigma and SSTx:
+sigma = .81
+SSTx = 6
+sdx = sigma / sqrt(SSTx)
+sdx
 
 ## covariance (Sxy):
 x = c(1,1,1)
@@ -198,6 +195,14 @@ sum((y - yhat)^2)
 # SSR = Sum of Squared Residuals (sum(yhat - bhat_0 - bhat_1 * xi)^2)
 # SSE = Sum of Squares Error
 
+# SSTx = sum(xi - xbar)^2
+x = 1
+xbar = 1
+SST = sum((x - mean(x))^2)
+# for wooldridge data:
+SSTj <- sum((hprice1$bdrms - mean(hprice1$bdrms))^2)
+SSTj
+
 ## SSE = SST - SSR (finding SSE from SST and SSR):
 SST = 374
 SSR = 88
@@ -211,7 +216,7 @@ SST = 2
 SSR = 96
 SST = 264
 SSR / SST
-# SSR = (1 - R^2) * SST (finding SSR from R^2 and SST):
+## SSR = (1 - R^2) * SST (finding SSR from R^2 and SST):
 SST = 121
 R2 = .25
 (1 - R2) * SST
@@ -241,6 +246,16 @@ sd(wage1$educ)
 sum((wage1$wage - mean(wage1$wage))^2)
 summary(reg)$r.squared
 
+## level-level finding change in y frmo a change in x:
+beta1 = 10
+x = 10
+beta1 * x
+
+## log-level finding change in y from a change in x:
+beta1 = .037
+x = -1
+beta1 * x * 100
+
 ## level-log finding change in y from change in x:
 beta1 = 47.3
 deltax = 18
@@ -251,29 +266,26 @@ beta1 = 1.22
 deltax = 18
 beta1 * deltax
 
-
-## Quiz 10:
-# PS11:
-# 1: finding percent y changes given a change in x1 and x2
+# finding percent y changes given a change in x1 and x2
 b1 = .026
 b2 = -.013
 x1 = 4
 x2 = 4
 100 * (b1 * x1 + b2 * x2)
 
-# 2: wooldridge, what percent wage changes when exp and tenure change
+# wooldridge, what percent wage changes when exp and tenure change
 reg = lm(log(wage) ~ educ + exper + tenure, data = wage1)
 b3 = reg$coefficients[3] # exper
 b4 = reg$coefficients[4] # tenure
 100 * (bexper * 2 + btenure * 1)
 
-# 3: whats predicted hourly wage of someone with given quantities of educ, exper, tenure
+# whats predicted hourly wage of someone with given quantities of educ, exper, tenure
 b1 = reg$coefficients[1] # wage
 b2 = reg$coefficients[2] # educ
 exp(b1 + (b2 * 12) + (b3 * 10) + (b4 * 3))
 coef(reg)
 
-# 6: finding sample mean y given x1bar, x2bar and MLR
+# finding sample mean y given x1bar, x2bar and MLR
 b0 = 3.9
 b1 = 1.9
 b2 = -.5
@@ -281,32 +293,98 @@ x1 = 7.9
 x2 = 3.7
 b0 + b1 * x1 + b2 * x2
 
-# 11: finding MLR slope given b1, b2, delta
+# finding MLR slope given b1, b2, delta
 b1tidle = .73
 b2hat = 1.23
 delta1tidle = -.33
 b1hat = b1tidle - b2hat * delta1tidle
 b1hat
 
-# 14: finding b2hat * delta1tidle
+# finding b2hat * delta1tidle
 reg6 = lm(faminc ~ cigs, data = bwght)
 delta1 = reg6$coefficients[2]
 bfamincMLR = reg5$coefficients[3]
 bfamincMLR * delta1
 
+# degrees of freedom (df):
+n = 1 # if need to do it from wooldridge, remember nrow()
+k = 1 # number of independent variables
+df = n - k - 1
+df
 
-### non-R questions:
-## 4: after OLD MLR, the residuals Uihat = yi - yihat, which statemets are true?
-# sample average of residuals = 0
-#  sample covariance between Xj and residuals = 0
-# regression passes through the point of sample means
-## 7: which regressions vilate MRL3 (no perfect collinearity) so that OLS cant estimate?
-# wage on income in dollars and income in thousands of dollars
-# regression with 5 independent variables, estimated on 4 observations
-# voteA on expendA, expend B and totexpend, where totexpend = expendA + expendB
-## 9: which situations makes MLR4, E[U | X1, ..., Xk] = 0 fail (so that the X variables are endogenous)
-# a variable that affects Y and is correlated with X1 is left out of the regression
-## 16: omitted variable X2 lowers Y (B2 < 0), X2 is negatively correalted with included X1, the slope on X1 is:
-# biased upward, B2 < 0 (-) and negative correlation between X2 and X1 (-) so - * - = +
-## 17: regresses crop yield on fertilizer, leaving out land quality. better land raises yield, and farmers use more fertilizer on better land. fertilizer slope most likely:
-# overstates effect of fertilizer (upward bias), better land and yeild have positive relationship (+) and farmers use more fertilizer on better land (+) so + * + = +
+# SSTj: (total sum of squares for a specific independent variable)
+SSTj = sum((hprice$bdrms - mean(hprice1$bdrms))^2) # change variable names for different regressions given
+SSTj
+
+# sigmahat:
+SSR = 1
+df = 1
+sigmahat = sqrt(SSR / df)
+sigmahat
+
+# Rj2:
+reg = lm(bdrms ~ sqrft + lotsize, data = hprice1)
+Rj2 = summary(reg)$r.squared
+Rj2
+
+## standard error:
+sigmahat = 1
+Rj2 = 1
+SSTj = 1
+se = sigmahat / sqrt(SSTj * (1 - Rj2))
+# finding standard errorfrom a regression: (the fast way)
+reg3 = lm(price ~ sqrft + bdrms + lotsize, data = hprice1) # so in this circumstance if you put a 3, you find se of bdrms
+summary(reg)$coefficients[__, 2] # assuming MLR, put the variable you are finding the standard error from in the first value of brackets
+
+## finding sample mean y given x1bar, x2bar and MLR
+b0 = 2
+b1 = .6
+b2 = 1.4
+x1 = 3
+x2 = 7
+b0 + b1 * x1 + b2 * x2
+
+## finding change in y given a change in x1 and x2
+b1 = 2.5
+b2 = -2.7
+x1 = 6
+x2 = 3
+b1 * x1 + b2 * x2
+
+## computing average of a variable at the means of other variables in a MLR
+reg2 = lm(colGPA ~ ACT + hsGPA, data = gpa1)
+b1 = reg2$coefficients[1] # colGPA
+b2 = reg2$coefficients[2] # ACT
+b3 = reg2$coefficients[3] # hsGPA
+b1 + (b2 * mean(gpa1$ACT) + b3 * mean(gpa1$hsGPA))
+
+## solving for a variable given fixed values for other variables, MLR (change variables to match the problem)
+reg = lm(log(wage) ~ educ + exper + tenure, data = wage1)
+b1 = reg$coefficients[1] # wage
+b2 = reg$coefficients[2] # educ
+b3 = reg$coefficients[3] # exper
+b4 = reg$coefficients[4] # tenure
+exp(b1 + (b2 * 12) + (b3 * 10) + (b4 * 3)) # change the blue numbers for the different values given
+
+## finding b1hat given b1tidle, b2hat, and delta1tidle:
+b1tidle = .73
+b2hat = 1.23
+delta1tidle = -.33
+b1hat = b1tidle - b2hat * delta1tidle
+b1hat
+
+## finding slope of a indenpendent variable on a dependent variable
+reg4 = lm(bwght ~ cigs, data = bwght)
+bcigs = reg4$coefficients[2]
+bcigs
+
+# finding slope of independent avriable on dependent variable, holding another independent fixed
+reg5 = lm(bwght ~ cigs + faminc, data = bwght)
+bcigsMLR = reg5$coefficients[2]
+bcigsMLR
+
+# finding b2hat * delta1tidle from the two prompts above ^^
+reg6 = lm(faminc ~ cigs, data = bwght)
+delta1 = reg6$coefficients[2]
+bfamincMLR = reg5$coefficients[3]
+bfamincMLR * delta1
