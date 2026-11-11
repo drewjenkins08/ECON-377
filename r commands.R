@@ -33,7 +33,6 @@ sigma = 5
 sd_b1 = sigma / sqrt(sum((x - mean(x))^2))
 sd_b1
 
-
 ## covariance (Sxy):
 x = c(1,1,1)
 y = c(1,1,1)
@@ -312,11 +311,13 @@ delta1tidle = -.33
 b1hat = b1tidle - b2hat * delta1tidle
 b1hat
 
-# finding b2hat * delta1tidle
-reg6 = lm(faminc ~ cigs, data = bwght)
-delta1 = reg6$coefficients[2]
-bfamincMLR = reg5$coefficients[3]
-bfamincMLR * delta1
+# finding b2hat * delta1tidle: from Quiz 10
+regMLR = lm(price ~ bdrms + sqrft, data = hprice1)
+bhat2MLR = regMLR$coefficients[3]
+
+regSLR = lm(sqrft ~ bdrms, data = hprice1)
+deltatidle = regSLR$coefficients[2]
+bhat2MLR * deltatidle
 
 # degrees of freedom (df):
 n = 1 # if need to do it from wooldridge, remember nrow()
@@ -325,7 +326,7 @@ df = n - k - 1
 df
 
 # SSTj: (total sum of squares for a specific independent variable)
-SSTj = sum((hprice$bdrms - mean(hprice1$bdrms))^2) # change variable names for different regressions given
+SSTj = sum((hprice$bdrms - mean(hprice1$bdrms))^2) # change variable names for different regressions given, (sum of the x value - the mean of x, squared)
 SSTj
 
 # sigmahat:
