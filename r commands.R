@@ -330,9 +330,11 @@ SSTj = sum((hprice$bdrms - mean(hprice1$bdrms))^2) # change variable names for d
 SSTj
 
 # sigmahat:
-df = n - k - 1
-SSR = 1
-df = 1
+n = 37
+SSR = 2354
+k = 4
+df = n - k - 1 # use this is you have to find it
+# df = 1 # use this if your given the df variable
 sigmahat = sqrt(SSR / df)
 sigmahat
 # or given n, and SSR:
