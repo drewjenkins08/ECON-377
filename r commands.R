@@ -326,10 +326,11 @@ df = n - k - 1
 df
 
 # SSTj: (total sum of squares for a specific independent variable)
-SSTj = sum((hprice$bdrms - mean(hprice1$bdrms))^2) # change variable names for different regressions given, (sum of the x value - the mean of x, squared)
+SSTj = sum((hprice1$bdrms - mean(hprice1$bdrms))^2) # change variable names for different regressions given, (sum of the x value - the mean of x, squared)
 SSTj
 
-# sigmahat:
+## sigmahat:
+# (on exam)
 n = 37
 SSR = 2354
 k = 4
@@ -342,7 +343,7 @@ n = 35
 SSR = 381
 sigmahat2 = SSR / (n - 2)
 sigmahat2
-# wooldridge, finding sigmahat having to find df, and then use df to get sigmahat
+# wooldridge, finding sigmahat having to find df, and then use df to get sigmahat (on exam)
 reg3 = lm(price ~ sqrft + bdrms + lotsize, data = hprice1)
 n = nrow(hprice1)
 k = 3
@@ -359,6 +360,7 @@ Rj2 = summary(reg)$r.squared
 Rj2
 
 ## standard error:
+# (on exam)
 sigmahat = 1
 Rj2 = 1
 SSTj = 1
