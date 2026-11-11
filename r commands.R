@@ -360,7 +360,6 @@ Rj2 = summary(reg)$r.squared
 Rj2
 
 ## standard error:
-# (on exam)
 sigmahat = 1
 Rj2 = 1
 SSTj = 1
@@ -441,3 +440,39 @@ reg = (lm(log(salary) ~ roe, data = ceosal1))
 b1 = coef(reg)['roe']
 deltaroe = 4
 b1 * deltaroe * 100
+
+# problems known to be on exam 2:
+# 4 on quiz 10 (first part in the series):
+n = 37
+SSR = 2354
+k = 4
+df = n - k - 1 # use this is you have to find it
+sigmahat = sqrt(SSR / df)
+sigmahat
+
+# 6 on quiz 10 (second part of the series):
+sigmahat = 6.9
+Rj2 = .56
+SSTj = 131
+seb1hat = sigmahat / sqrt(SSTj * (1 - Rj2))
+seb1hat
+
+# 8 on quiz 10 (third part of the series):
+# fidning sigmahat
+sigmahat = sqrt(SSR / df)
+sigmahat
+
+## wooldridge, #10 and 12 on quiz 10, finding sebjhat from 3 peices before this (combined all the previous parts)
+SSTj = sum((hprice1$bdrms - mean(hprice1$bdrms))^2)
+# finding df
+n = nrow(hprice1)
+k = 3
+df = n - k - 1
+# finding Rj2 and SSR
+reg = lm(bdrms ~ sqrft + lotsize, data = hprice1)
+Rj2 = summary(reg)$r.squared
+SSR = sum(reg3$residuals^2)
+# fidning sigmahat
+sigmahat = sqrt(SSR / df)
+# finging sebjhat
+sigmahat / sqrt(SSTj * (1 - Rj2))
