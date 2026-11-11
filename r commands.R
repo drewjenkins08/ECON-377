@@ -4,6 +4,7 @@ data("wage1")
 data("bwght")
 data('ceosal1')
 data('gpa1')
+data('hprice1')
 
 ## variance (Sx^2):
 x = c(1,1,1)
@@ -26,6 +27,12 @@ sigma = .81
 SSTx = 6
 sdx = sigma / sqrt(SSTx)
 sdx
+# or given sigma and a vector:
+x = c(1,3,4,5,9)
+sigma = 5
+sd_b1 = sigma / sqrt(sum((x - mean(x))^2))
+sd_b1
+
 
 ## covariance (Sxy):
 x = c(1,1,1)
@@ -131,6 +138,11 @@ sum(x * uhat)
 covxy = 1
 varx = 1
 covxy / varx
+# or if given correlatoin, standard deviation, and variance:
+corxy = -.6
+vary = 4
+sdx = 2
+corxy * sqrt(vary) / sdx
 # or given vectors:
 x = c(6,5,8)
 y = c(1,8,4)
@@ -252,18 +264,18 @@ x = 10
 beta1 * x
 
 ## log-level finding change in y from a change in x:
-beta1 = .037
-x = -1
+beta1 = .078
+x = 2
 beta1 * x * 100
 
 ## level-log finding change in y from change in x:
-beta1 = 47.3
-deltax = 18
+beta1 = 56.1
+deltax = 7
 (beta1 / 100) * deltax
 
 ## log-log finding change in y from a change in x:
-beta1 = 1.22
-deltax = 18
+beta1 = .48
+deltax = -16
 beta1 * deltax
 
 # finding percent y changes given a change in x1 and x2
@@ -317,10 +329,16 @@ SSTj = sum((hprice$bdrms - mean(hprice1$bdrms))^2) # change variable names for d
 SSTj
 
 # sigmahat:
+df = n - k - 1
 SSR = 1
 df = 1
 sigmahat = sqrt(SSR / df)
 sigmahat
+# or given n, and SSR:
+n = 35
+SSR = 381
+sigmahat2 = SSR / (n - 2)
+sigmahat2
 
 # Rj2:
 reg = lm(bdrms ~ sqrft + lotsize, data = hprice1)
@@ -332,7 +350,21 @@ sigmahat = 1
 Rj2 = 1
 SSTj = 1
 se = sigmahat / sqrt(SSTj * (1 - Rj2))
-# finding standard errorfrom a regression: (the fast way)
+# finding the standard error of b1 given, n, SSR, SSTx
+n = 12
+SSR = 563
+SSTx = 20
+sigmahat = SSR / (n - 2)
+seb1 = sqrt(sigmahat / SSTx)
+seb1
+# finding standard error given n, sigmahat, sdx
+n = 10
+sigmahat = 5.4
+sdx = .8
+SSTx = (n - 1) * (sdx)^2
+sigmahat / sqrt(SSTx)
+
+# finding standard error from a regression: (the fast way)
 reg3 = lm(price ~ sqrft + bdrms + lotsize, data = hprice1) # so in this circumstance if you put a 3, you find se of bdrms
 summary(reg)$coefficients[__, 2] # assuming MLR, put the variable you are finding the standard error from in the first value of brackets
 
@@ -378,7 +410,7 @@ reg4 = lm(bwght ~ cigs, data = bwght)
 bcigs = reg4$coefficients[2]
 bcigs
 
-# finding slope of independent avriable on dependent variable, holding another independent fixed
+# finding slope of independent variable on dependent variable, holding another independent fixed
 reg5 = lm(bwght ~ cigs + faminc, data = bwght)
 bcigsMLR = reg5$coefficients[2]
 bcigsMLR
@@ -388,3 +420,9 @@ reg6 = lm(faminc ~ cigs, data = bwght)
 delta1 = reg6$coefficients[2]
 bfamincMLR = reg5$coefficients[3]
 bfamincMLR * delta1
+
+# finding predicted change in log, given a delta in independent variable
+reg = (lm(log(salary) ~ roe, data = ceosal1))
+b1 = coef(reg)['roe']
+deltaroe = 4
+b1 * deltaroe * 100
