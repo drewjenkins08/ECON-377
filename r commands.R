@@ -342,6 +342,16 @@ n = 35
 SSR = 381
 sigmahat2 = SSR / (n - 2)
 sigmahat2
+# wooldridge, finding sigmahat having to find df, and then use df to get sigmahat
+reg3 = lm(price ~ sqrft + bdrms + lotsize, data = hprice1)
+n = nrow(hprice1)
+k = 3
+df = n - k - 1
+df
+SSR = sum(reg3$residuals^2)
+sigmahat = sqrt(SSR / df)
+sigmahat
+
 
 # Rj2:
 reg = lm(bdrms ~ sqrft + lotsize, data = hprice1)
