@@ -412,6 +412,13 @@ b3 = reg$coefficients[3] # exper
 b4 = reg$coefficients[4] # tenure
 exp(b1 + (b2 * 12) + (b3 * 10) + (b4 * 3)) # change the blue numbers for the different values given
 
+# finding prediction given log-log function with fixed values
+reg2 = lm(log(salary) ~ log(sales) + roe, data = ceosal1)
+b0log = reg2$coefficients[1] # salary 
+b1log = reg2$coefficients[2] # sales
+b2log = reg2$coefficients[3] # roe
+exp(b0log + b1log * log(5000) + (b2log * 15))
+
 ## finding b1hat given b1tidle, b2hat, and delta1tidle:
 b1tidle = .73
 b2hat = 1.23
