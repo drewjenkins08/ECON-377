@@ -448,7 +448,6 @@ b1 = coef(reg)['roe']
 deltaroe = 4
 b1 * deltaroe * 100
 
-# problems known to be on exam 2:
 # 4 on quiz 10 (first part in the series):
 n = 37
 SSR = 2354
@@ -483,3 +482,39 @@ SSR = sum(reg3$residuals^2)
 sigmahat = sqrt(SSR / df)
 # finging sebjhat
 sigmahat / sqrt(SSTj * (1 - Rj2))
+
+# quiz 12:
+## 1) under MLR1-6 bjhat - bj / sdbjhat has a normal distribution but bjhat - bj / sebjhat has a t distribution, why?
+# standard error replaces the unkown sigma with the estimate sigmahat, which varies from sample to sample
+
+# 3: finding df for bjhat
+k = 5
+n = 182
+df = n - k - 1
+df
+
+# 4: finding t-value given bjhat and sebjhat
+bjhat = -1.81
+sebjhat = 1.09
+bjhat / sebjhat
+
+## 7: H0: Bj = 0 against H1: Bj > 0 at the 5% level with df = 25, so c = 1.71 the t-value is t = 1.52, what can you conclude?
+# hint: against H1: Bj > 0, reject H0 only if t > 0 ||| vice versa, Bj < 0, reject H0 only if t < 0
+# fail to reject H0, because t < 0
+
+# 14: another example of #5 and 11
+reg3 = lm(bwght ~ cigs + faminc, data = bwght)
+est3 = summary(reg3)$coefficients[2, 1]
+se3 = summary(reg3)$coefficients[2,2]
+est3 / se3
+summary(reg3)$coefficients[2,3]
+
+# 17: taking slope and changing the scale, in this case decimal to percent (multiplying by 100)
+.0113 * 100
+
+# 20: finding log-log MLR given price at 2000 sqrft with 3 bdrms
+reg5 = lm(log(price) ~ log(sqrft) + bdrms, data = hprice1)
+b0 = reg5$coefficients[1]
+b1 = reg5$coefficients[2]
+b2 = reg5$coefficients[3]
+exp(b0 + b1 * log(2000) + b2 * 3)
