@@ -499,8 +499,7 @@ sebjhat = 1.09
 bjhat / sebjhat
 
 ## 7: H0: Bj = 0 against H1: Bj > 0 at the 5% level with df = 25, so c = 1.71 the t-value is t = 1.52, what can you conclude?
-# hint: against H1: Bj > 0, reject H0 only if t > 0 ||| vice versa, Bj < 0, reject H0 only if t < 0
-# fail to reject H0, because t < 0
+# hint: against H1: Bj > 0, reject H0 only if t > c ||| vice versa, Bj < 0, reject H0 only if t < c
 
 # 14: another example of #5 and 11
 reg3 = lm(bwght ~ cigs + faminc, data = bwght)
